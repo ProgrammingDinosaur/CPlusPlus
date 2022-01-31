@@ -2,7 +2,7 @@
 
 #include <iostream> //Libería principal para entrada y salida
 #include <cmath> //Librería para matemáticas
-
+#include <string>
 //Definición de espacio de trabajo
 
 using namespace std;
@@ -19,7 +19,7 @@ int Multiplicar(int num_uno, int num_dos)//Definición de función Multiplicar
     return num_uno*num_dos; //Regresar multiplicación de parámetro num_uno y num_dos
 }
 
-float Dividir(int num_uno, int num_dos) //Definición de función Dividir
+float Dividir(float num_uno, float num_dos) //Definición de función Dividir
 {
     float resultado = num_uno/num_dos; //Definir flotante con resultado de la división de num_uno y num_dos
     return resultado; //Regresar Resultado
