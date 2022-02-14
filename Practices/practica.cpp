@@ -1,12 +1,10 @@
 #include <iostream>
-
+using namespace std;
 
 
 int main() {
-    std::string pur;
-    std::cout << "Dakota\n";
-    std::cin >> pur;
-    std::cout << pur;
+    string pur;
+    cout << "Hello World";
 
 
 
