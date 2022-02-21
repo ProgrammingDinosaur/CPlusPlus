@@ -7,28 +7,23 @@
 using namespace std;
 
 class CitaGym {
-    private:
-        string nombre_completo;
-        int duracion_horas = 1;
-        int duracion_minutos = 30;
-        vector<int> ids_credencial;
+private:
+    string nombre_completo;
+    int duracion_horas = 1;
+    int duracion_minutos = 30;
+    vector<int> ids_credencial ={8352,43523,3325245};
         int id_usuario = 0;
+
 
    public: 
         int hora_entrada = 12;
         int minutos_entrada= 0;
         int hora_salida = 0;
         int minutos_salida = 0;
-        string gym_name = "";
+        string gym_name = "GYM GYM";
    
-        CitaGym(string nombre_gym,vector <int> credencial_ids_validos ) {
-
-            gym_name = nombre_gym;
-            cout << "Bienvenido a Gimnasio " << gym_name<<endl;
-            ids_credencial = credencial_ids_validos;
-        }
-
-        void creador_cita(string nombre, int credencial) {
+        CitaGym(string nombre, int credencial) {
+            cout << "Bienvenido a Gimnasio " << gym_name << endl;
             cout << "Hola Continua tu registro a continuacion: " << endl;
             nombre_completo = nombre;
             id_usuario = credencial;
@@ -73,7 +68,8 @@ int main()
 {
     Persona p1("Roberto", 899989);
     Persona p2("Gerardo", 90);
-    CitaGym gym1("Gym default", { 342,32434,44224284 });
-    gym1.creador_cita(p1.nombre,p1.id_credencial);
+
+    CitaGym cita1(p1.nombre,p1.id_credencial);
+
 
 }
