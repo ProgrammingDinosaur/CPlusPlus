@@ -24,7 +24,7 @@ private:
    
         CitaGym(string nombre, int credencial) {
             cout << "Bienvenido a Gimnasio " << gym_name << endl;
-            cout << "Hola Continua tu registro a continuacion: " << endl;
+            cout << "Hola " <<nombre << " comenzando tu registro..." << endl;
             nombre_completo = nombre;
             id_usuario = credencial;
             bool valido = false;
@@ -33,16 +33,15 @@ private:
                 if (id_usuario == id)
                 {
                     valido = true;
-                    cout << "Bienvenido"<<endl;
                     break;
                     
                 }
             }
             if (valido) {
-                cout << "Ingresa la hora de ingreso: ";
+                cout << "Bienvenido " << nombre_completo << endl;
             }
             else {
-                cout << "No apareces en el registro, te recomendamos comprar una suscripcion";
+                cout << "No apareces en el registro, te recomendamos comprar una suscripcion"<<endl;
             }
 
         }
@@ -66,10 +65,11 @@ public:
 
 int main()
 {
-    Persona p1("Roberto", 899989);
-    Persona p2("Gerardo", 90);
+    Persona p1("Roberto",899989);
+    Persona p2("Gerardo",8352);
 
     CitaGym cita1(p1.nombre,p1.id_credencial);
+    CitaGym cita2(p2.nombre, p2.id_credencial);
 
 
 }
