@@ -1,27 +1,49 @@
-
+//Librerías
 #include <iostream>
 #include <string>
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
-#include <map>
 
-using namespace std;
+using namespace std; //Espacio de Trabajo Std
 
-
+/**
+*Clase Persona
+*Miembros Publicos: 1.id_credencial (int) 2. Nombre (string) 3. Cita asignada (int)
+*Constructor :Toma el nombre (string) de la persona y el id (int) de la credencial, los asigna a los miembros correspondientes
+*/
 class Persona {
 public:
     int id_credencial;
     string nombre;
     int cita_asignada;
+
+    /**Constructor
+    * Asigna los parametros a los miembros Nombre y ID
+    *   Parametros:
+    *       _nombre: string con el nombre
+    *       credencial: id de la credencial
+    */
     Persona(string _nombre, int credencial = 0) {
+        //Asigna Variables
         nombre = _nombre;
         id_credencial = credencial;
     }
 
 };
-
+/**
+*Clase Cita GYM
+*Miembros Privados: 1.Nombre (string) 2.Ids de credencial validos (vector <int>) 3.Id Usuario (int) 4. Duracion (struct Hora)
+*                    5.Entrada valida (bool) 6 Cita id (int)
+* Miembros Publicos: 1. Hora entrada (int) 2. Minutos Entrada (int) 3.Duracion Horas (int), valor default: 0 
+*                    4.Nombre Gym (string)
+*Constructor :Toma una referencia a la persona, la hora y minutos de entrada, así como la duaración en horas y minutos que estará en el GYM
+*             De la referencia a Persona toma los miembros id y nombre y los asigna a miembros propios de la clase CitaGym
+*             También asigna la hora de entrada y de salida a las variables para eso
+*              Ocurre lo mismo con la duración
+*/
 class CitaGym {
+    //Definicion Struct Personalizada para almacenar horas
     struct Hora
     {
         int horas = 0;
@@ -29,31 +51,52 @@ class CitaGym {
     };
 private:
     string nombre_completo;
-    vector<int> ids_credencial = { 10,56,89,32,66,98,99,12,0,1,2,3,4,5,6,7,8,9,76,77,24,44 };
+    //Definir ids de personas que pueden entrar
+    vector<int> ids_credencial = { 10,56,89,32,66,98,99,12,0,1,2,3,4,5,6,7,8,9,76,77,24,44,11,98 }; 
     int id_usuario = 0;
     struct Hora duracion;
     bool valid_entry = false;
     int cita_id;
 
 public:
-    int hora_entrada = 12;
-    int minutos_entrada = 0;
+    int hora_entrada ;
+    int minutos_entrada;
     int dur_hor = 0;
     int dur_min = 0;
-    string gym_name = "GYM GYM";
 
+    string gym_name = "GYM GYM";  //Nombre GYM
+
+    /** Constructor
+    *   
+    *   Asigna las variables a los miembros correspondientes
+    *   Genera id de cita
+    *   Checa si credencial es valida y ejecuta la acción correspondiente
+    * 
+    *   Parametros: 
+    *       Personi: Referencia a objeto de tipo Persona
+    *       hora_ent: int con la hora de entrada
+    *       min_ent: int con el minuto de entrada
+    *       horas_dur: int con las horas que la persona estará en el gym
+    *       minu_dur: int con los minutos que estará la persona en el gym
+    */
     CitaGym(Persona& personi, int hora_ent, int min_ent, int horas_dur, int minu_dur) {
 
+        //Da la bienvenida al usuario
         cout << "Bienvenido a Gimnasio " << gym_name << endl;
         cout << "Hola " << personi.nombre << " comenzando tu registro..." << endl;
+
+        //Asignar Variables
         hora_entrada = hora_ent;
         dur_hor = horas_dur;
         dur_min = minu_dur;
         nombre_completo = personi.nombre;
         id_usuario = personi.id_credencial;
         valid_entry = false;
+        //Numero de Cita aleatorio
         cita_id = rand() % 9999;
         personi.cita_asignada = cita_id;
+
+        //Loop que revisa si el id de credencial es valido, es decir, se encuentra en el vector de ids validos
         for (int id : ids_credencial)
         {
             if (id_usuario == id)
@@ -63,9 +106,11 @@ public:
 
             }
         }
+        //Si la credencial es valida dar bienvenida al servicio y dar id generado
         if (valid_entry) {
             cout << "===Bienvenido===\nGimnasio ==="<<gym_name<<"===\n" << nombre_completo << " se te ha asignado la cita #" << cita_id << "\n\n";
         }
+        //Si no es valida ofrecer opciones para comprar suscripcion al GYM
         else {
             cout << nombre_completo<< " No apareces en el registro, te recomendamos comprar una suscripcion" << "\n";
             cout << "Contamos con menusalidad e inscripcion" << endl;
@@ -74,14 +119,28 @@ public:
         }
 
     }
+    //Setter de los ids validos
     void cambiar_ids_validos(vector<int> ids_new) {
         ids_credencial = ids_new;
     }
-
+    //Getter de los ids validos
     vector<int> get_valid_ids() {
         return ids_credencial;
     }
 
+    /**
+    * Función calcular duracíón
+    *   
+    *   Suma la hora de entrada y la duración para obtener hora de salida
+    * 
+    *   Parametros:
+    *       hora_ent: int de la hora de entrada
+    *       min_ent: int del minuto de entrada
+    *       hora_dura: int con las horas de duración de la sesión
+    *       min_dura: int con los minutos de duración de la sesión
+    *       
+    *   Regresa: Structura de tipo Hora que contiene hora y minuto de salida.
+    */
     struct Hora calcular_duracion(int hora_ent, int min_ent, int hora_dura, int min_dura) {
         struct Hora hora_sal = { 0,0 };
         int min_dif = min_ent + min_dura;
@@ -98,10 +157,17 @@ public:
         }
         return hora_sal;
     }
-
+    /**
+    * Función Registrar Salida
+    *   Calcula la hora de salida, la registra y le da la despedida al usuario. Así como un resumen de su sesión
+    *   
+    *   Parámetros:
+    *      maquinas_usadas: vector de string que contendrá las máquinas usadas durante la sesión (valor por defecto ={})
+    *     
+    */
     void registrar_salida(vector<string> maquinas_usadas = {}) {
         if (valid_entry) {
-            struct Hora hora_salida = calcular_duracion(hora_entrada, minutos_entrada, dur_hor, dur_min);
+            struct Hora hora_salida = calcular_duracion(hora_entrada, minutos_entrada, dur_hor, dur_min);//Llama función "calcular duración"
             cout << nombre_completo << " Empezando Registro de salida... Hora de Salida "
                 << to_string(hora_salida.horas) << ":" << to_string(hora_salida.minutos)
                 << " " << "Usted uso " << maquinas_usadas.size() << " maquinas" << endl;
@@ -112,11 +178,14 @@ public:
 
 };
 
-
+//Main
 int main()
 {
-    srand(time(NULL));
-    Persona p1("Roberto", (rand()%99));
+    srand(time(NULL)); //Semilla "Aleatoria"
+
+    //Creación de Personas con Argumentos  1. Nombre   2. ID
+    //Asignación aleatoria de ID (0-100)
+    Persona p1("Roberto", (rand()%99)); 
     Persona p2("Gerardo", (rand() % 99));
     Persona p3("Hugo", (rand() % 99));
     Persona p4("Daniel", (rand() % 99));
@@ -205,8 +274,10 @@ int main()
     CitaGym cita40(p40, 14, 30, 1, 30); //Entrada Isabela
 
 
-    //Salida toma el argumento de máquinas, seguir ejmeplo de "Gerardo"
-    cita1.registrar_salida({ "Caminadora","Eliptica","Remo" });
+    //Registro de Salidas con el parametro de las maquinas usadas en un Vector
+    //La salida se registra con la instancia de la cita
+
+    cita1.registrar_salida({ "Caminadora","Eliptica","Remo" }); //Vector con Caminadora, Eliptica y Remo
     cita2.registrar_salida({ "Caminadora", "Mancuernas", "press de banca" });
     cita3.registrar_salida({ "Eliptica", "bicicleta", "remo con mancuernas", "prensa" });
     cita4.registrar_salida({ "Caminadora", "escalera infinita", "sentadilla con barra", "gluteo" });
