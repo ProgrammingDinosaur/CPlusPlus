@@ -36,7 +36,7 @@ public:
 *Miembros Privados: 1.Nombre (string) 2.Ids de credencial validos (vector <int>) 3.Id Usuario (int) 4. Duracion (struct Hora)
 *                    5.Entrada valida (bool) 6 Cita id (int)
 * Miembros Publicos: 1. Hora entrada (int) 2. Minutos Entrada (int) 3.Duracion Horas (int), valor default: 0 
-*                    4.Nombre Gym (string)
+*                    4.Nombre Gym (string) 5. Arreglo con hora de salida y hora de entrada (idx: 0 = entrada, idx: 1= salida)
 *Constructor :Toma una referencia a la persona, la hora y minutos de entrada, así como la duaración en horas y minutos que estará en el GYM
 *             De la referencia a Persona toma los miembros id y nombre y los asigna a miembros propios de la clase CitaGym
 *             También asigna la hora de entrada y de salida a las variables para eso
