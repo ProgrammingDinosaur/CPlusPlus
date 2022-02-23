@@ -63,12 +63,13 @@ public:
     int minutos_entrada;
     int dur_hor = 0;
     int dur_min = 0;
-
+    int horario[2] = { 7, 20 };
     string gym_name = "GYM GYM";  //Nombre GYM
 
     /** Constructor
     *   
     *   Asigna las variables a los miembros correspondientes
+    *   Revisa si la cita es en horario valido
     *   Genera id de cita
     *   Checa si credencial es valida y ejecuta la acción correspondiente
     * 
@@ -95,7 +96,9 @@ public:
         //Numero de Cita aleatorio
         cita_id = rand() % 9999;
         personi.cita_asignada = cita_id;
-
+        //Revisa si la cita se genera en un horario válido, si es así permite seguir
+        //De lo contrario rechaza al usuario y le dice los horarios válidos
+        if (hora_ent > horario[0] && hora_ent < horario[1]) {
         //Loop que revisa si el id de credencial es valido, es decir, se encuentra en el vector de ids validos
         for (int id : ids_credencial)
         {
@@ -108,16 +111,21 @@ public:
         }
         //Si la credencial es valida dar bienvenida al servicio y dar id generado
         if (valid_entry) {
-            cout << "===Bienvenido===\nGimnasio ==="<<gym_name<<"===\n" << nombre_completo << " se te ha asignado la cita #" << cita_id << "\n\n";
+            cout << "===Bienvenido===\nGimnasio ===" << gym_name << "===\n" << nombre_completo << " se te ha asignado la cita #" << cita_id << "\n\n";
         }
         //Si no es valida ofrecer opciones para comprar suscripcion al GYM
         else {
-            cout << nombre_completo<< " No apareces en el registro, te recomendamos comprar una suscripcion" << "\n";
+            cout << nombre_completo << " No apareces en el registro, te recomendamos comprar una suscripcion" << "\n";
             cout << "Contamos con menusalidad e inscripcion" << endl;
             cout << "La mensualidad tiene un costo de $500.00" << endl;
             cout << "Y la inscripcion es una vez y tiene un costo de 200\n\n";
         }
+        }
+        else {
 
+            cout << "Usted esta intentando hacer una cita en un horario que el GYM no esta abierto\nIntente con otro horario, recuerde abrimos de " <<
+                horario[0] << " a " << horario[1];
+        }
     }
     //Setter de los ids validos
     void cambiar_ids_validos(vector<int> ids_new) {
@@ -144,6 +152,8 @@ public:
     struct Hora calcular_duracion(int hora_ent, int min_ent, int hora_dura, int min_dura) {
         struct Hora hora_sal = { 0,0 };
         int min_dif = min_ent + min_dura;
+        //Suma 1 a las horas y resta 60  a los  minutos si la suma de estos es mayor a 60
+        //Si no suman 60 los minutos la suma es tal cual
         if (min_dif >= 60) {
             hora_sal.horas = hora_ent + hora_dura + 1;
             hora_sal.minutos = min_dif - 60;
